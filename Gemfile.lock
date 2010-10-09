@@ -5,6 +5,7 @@ GEM
     autotest-growl (0.2.6)
     diff-lcs (1.1.2)
     rake (0.8.7)
+    rcov (0.9.9)
     rspec (2.0.0.rc)
       rspec-core (= 2.0.0.rc)
       rspec-expectations (= 2.0.0.rc)
@@ -23,4 +24,5 @@ DEPENDENCIES
   autotest
   autotest-growl
   rake
+  rcov
   rspec (= 2.0.0.rc)
