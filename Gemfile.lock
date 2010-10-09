@@ -1,0 +1,26 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    autotest (4.4.0)
+    autotest-growl (0.2.6)
+    diff-lcs (1.1.2)
+    rake (0.8.7)
+    rspec (2.0.0.rc)
+      rspec-core (= 2.0.0.rc)
+      rspec-expectations (= 2.0.0.rc)
+      rspec-mocks (= 2.0.0.rc)
+    rspec-core (2.0.0.rc)
+    rspec-expectations (2.0.0.rc)
+      diff-lcs (>= 1.1.2)
+    rspec-mocks (2.0.0.rc)
+      rspec-core (= 2.0.0.rc)
+      rspec-expectations (= 2.0.0.rc)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  autotest
+  autotest-growl
+  rake
+  rspec (= 2.0.0.rc)
