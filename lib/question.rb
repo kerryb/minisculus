@@ -5,16 +5,22 @@ class Question
 
   def initialize location
     @uri = URI.parse location
-    response = Net::HTTP.get_response @uri
-    if response.kind_of?(Net::HTTPRedirection)
-      @uri.path = response["location"]
-      puts "Redirected to #{@uri.inspect}"
-      response = Net::HTTP.get_response @uri
-    end
+    response = retrieve_resource
     @text = extract_text response.body
   end
   
   private
+
+  def retrieve_resource
+    response = Net::HTTP.get_response @uri
+    if response.kind_of?(Net::HTTPRedirection)
+      @uri.path = response["location"]
+      puts "Redirected to #{@uri.inspect}"
+      Net::HTTP.get_response @uri
+    else
+      response
+    end
+  end
 
   def extract_text json_body
     data = JSON.parse json_body
