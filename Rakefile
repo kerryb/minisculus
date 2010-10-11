@@ -3,7 +3,7 @@ Bundler.setup
 
 require "rspec/core/rake_task"
 
-task :default => [:spec, :check_coverage]
+task :default => [:spec, :check_coverage, :run]
 
 RSpec::Core::RakeTask.new("spec") do |t|
   t.pattern = FileList["spec/**/*_spec.rb"]
@@ -23,4 +23,8 @@ task :check_coverage do
     puts "Coverage: #{total_coverage}%"
     raise "Coverage must be at least 100% but was #{total_coverage}%" if total_coverage < 100
   end
+end
+
+task :run do
+  load "run.rb"
 end
