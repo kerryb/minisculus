@@ -26,8 +26,4 @@ end
 
 answer = letters.join
 
-req = Net::HTTP::Put.new(question.uri.path)
-req.body = {"answer" => answer}.to_json
-req["Content-Type"] = "application/json"
-res = Net::HTTP.new(question.uri.host, question.uri.port).start {|http| http.request(req) }
-puts res["location"]
+puts question.answer answer
