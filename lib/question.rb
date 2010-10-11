@@ -15,7 +15,6 @@ class Question
     response = Net::HTTP.get_response @uri
     if response.kind_of?(Net::HTTPRedirection)
       @uri.path = response["location"]
-      puts "Redirected to #{@uri.inspect}"
       Net::HTTP.get_response @uri
     else
       response

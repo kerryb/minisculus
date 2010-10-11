@@ -41,4 +41,19 @@ describe Question do
       end
     end
   end
+
+  describe "answering" do
+    before do
+    end
+
+    it "PUTs the answer back to the same URI"
+
+    context "correctly" do
+      it "returns the URI of the next question"
+    end
+
+    context "incorrectly" do
+      it "raises an exception"
+    end
+  end
 end
