@@ -7,6 +7,7 @@ $:.unshift File.expand_path("../lib", __FILE__)
 require "question_source"
 require "mark_1"
 require "mark_2"
+require "mark_4"
 
 def solve_challenge url, encoder
   question = QuestionSource.get_question url
@@ -21,7 +22,7 @@ end
 encoders = [
   Mark1.new(6),
   Mark2.new(9, 3),
-  Mark2.new(9, 3)
+  Mark4.new(9, 3)
 ]
 initial_url = "http://minisculus.edendevelopment.co.uk/start"
 
