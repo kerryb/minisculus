@@ -8,16 +8,22 @@ require "question_source"
 require "mark_1"
 require "mark_2"
 
-begin
-  question = QuestionSource.get_question "http://minisculus.edendevelopment.co.uk/start"
-  answer = Mark1.new(6).encode question.text
+def solve_challenge url, encoder
+  question = QuestionSource.get_question url
+  answer = encoder.encode question.text
   path_to_next_question = question.answer answer
-  question = QuestionSource.get_question(
-    "http://minisculus.edendevelopment.co.uk#{path_to_next_question}")
-  answer = Mark2.new(9, 3).encode question.text
-  path_to_next_question = question.answer answer
+  URI.parse(url).merge(path_to_next_question).to_s
 rescue Question::WrongAnswer
   Launchy.open question.reference_url
   raise
 end
 
+encoders = [
+  Mark1.new(6),
+  Mark2.new(9, 3)
+]
+initial_url = "http://minisculus.edendevelopment.co.uk/start"
+
+encoders.inject initial_url do |url, encoder|
+  solve_challenge url, encoder
+end
