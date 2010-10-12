@@ -1,6 +1,6 @@
 class Encoder
-  def encode text
-    @wheels.inject(text) {|text, wheel| wheel.encode text }
+  def encode original_text
+    @wheels.inject(original_text) {|encoded_text, wheel| wheel.encode original_text, encoded_text }
   end
 end
 
