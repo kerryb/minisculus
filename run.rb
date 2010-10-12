@@ -1,14 +1,22 @@
 #!/usr/bin/env ruby
 
 require "rubygems"
-require "net/http"
-require "json"
+require "launchy"
 
 $:.unshift File.expand_path("../lib", __FILE__)
 require "question_source"
 require "mark_1"
 
-question = QuestionSource.get_question "http://minisculus.edendevelopment.co.uk/start"
-answer = Mark1.new(6).encode question.text
+begin
+  question = QuestionSource.get_question "http://minisculus.edendevelopment.co.uk/start"
+  answer = Mark1.new(6).encode question.text
+  path_to_next_question = question.answer answer
+  question = QuestionSource.get_question(
+    "http://minisculus.edendevelopment.co.uk#{path_to_next_question}")
+  answer = Mark1.new(6).encode question.text
+  path_to_next_question = question.answer answer
+rescue Question::WrongAnswer
+  Launchy.open question.reference_url
+  raise
+end
 
-puts question.answer answer

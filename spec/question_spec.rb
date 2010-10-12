@@ -2,13 +2,19 @@ require File.expand_path("../spec_helper", __FILE__)
 require "question"
 
 describe Question do
-  describe "initialising with a url and text" do
-    let(:url) { URI.parse "http://example.com/foo" }
+  describe "initialising with a url, relative reference_url and text" do
+    let(:url) { "http://example.com/foo" }
+    let(:relative_reference_url) { "/help.html" }
+    let(:absolute_reference_url) { "http://example.com/help.html" }
     let(:text) { "What is your favourite colour?" }
-    let(:question) { Question.new url, text }
+    let(:question) { Question.new url, relative_reference_url, text }
 
     it "saves the url" do
       question.url.should == url
+    end
+
+    it "saves the absolute reference_url" do
+      question.reference_url.should == absolute_reference_url
     end
 
     it "extracts the question text" do
@@ -19,7 +25,7 @@ describe Question do
   describe "answering" do
     let(:this_question_url) { "http://example.com/foo" }
     let(:next_question_url) { "http://example.com/bar" }
-    let(:question) { Question.new URI.parse(this_question_url), "some text" }
+    let(:question) { Question.new this_question_url, "/ref", "some text" }
     let(:answer) { "some more text" }
     let(:answer_as_json) { {:answer => answer}.to_json }
 
@@ -45,13 +51,15 @@ describe Question do
     end
 
     context "incorrectly" do
+      let(:body) { "Sorry, try again." }
+
       before do
-        stub_request(:put, this_question_url).to_return(:status => 406)
+        stub_request(:put, this_question_url).to_return(:status => 406, :body => body)
       end
 
-      it "raises an exception" do
-        lambda { question.answer answer }.should raise_error("Wrong answer!")
+      it "raises an exception containing the response body" do
+        lambda { question.answer answer }.should raise_error(Question::WrongAnswer, body)
       end
     end
-  end  
+  end
 end

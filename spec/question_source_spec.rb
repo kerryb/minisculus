@@ -6,6 +6,8 @@ describe QuestionSource do
     let(:original_url) { "http://example.com/start" }
     let(:question_path) { "/question" }
     let(:question_url) { "http://example.com#{question_path}" }
+    let(:reference_path) { "/reference" }
+    let(:reference_url) { "http://example.com#{reference_path}" }
     let(:question_text) { "Hello world!" }
 
     before do
@@ -13,13 +15,20 @@ describe QuestionSource do
         :status => 303,
         :headers => {:location => question_path}
       )
-      response_body = {:question => question_text}.to_json
+      response_body = {
+        "reference-url" => reference_path,
+        "question" => question_text
+      }.to_json
       stub_request(:get, question_url).to_return :body => response_body
     end
 
     shared_examples_for "getting a question" do
       it "saves the url" do
-        question.url.should == URI.parse(question_url)
+        question.url.should == question_url
+      end
+
+      it "saves the reference url" do
+        question.reference_url.should == reference_url
       end
 
       it "extracts the question text" do
