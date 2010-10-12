@@ -4,14 +4,14 @@ require "question"
 
 module QuestionSource
   def self.get_question location
-    uri = URI.parse location
-    response = Net::HTTP.get_response uri
+    url = URI.parse location
+    response = Net::HTTP.get_response url
     if response.kind_of?(Net::HTTPRedirection)
-      uri.path = response["location"]
-      get_question uri.to_s
+      url.path = response["location"]
+      get_question url.to_s
     else
       text = extract_text response.body
-      Question.new uri, text
+      Question.new url, text
     end
   end
 
