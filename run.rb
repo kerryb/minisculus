@@ -20,6 +20,7 @@ end
 
 encoders = [
   Mark1.new(6),
+  Mark2.new(9, 3),
   Mark2.new(9, 3)
 ]
 initial_url = "http://minisculus.edendevelopment.co.uk/start"

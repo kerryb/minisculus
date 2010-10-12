@@ -1,4 +1,4 @@
-class Wheel
+class SimpleWheel
   def initialize setting
     @setting = setting
   end
