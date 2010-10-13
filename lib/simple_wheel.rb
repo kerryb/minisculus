@@ -1,12 +1,12 @@
+require "wheel"
 require "encoder"
 
-class SimpleWheel
+class SimpleWheel < Wheel
   def initialize setting
     @setting = setting
   end
 
   def encode keyed_char, partially_encoded_char
-    position = Encoder::Keys.find_index partially_encoded_char
-    Encoder::Keys[(position + @setting) % Encoder::Keys.length]
+    shift partially_encoded_char
   end
 end
