@@ -8,6 +8,7 @@ require "question_source"
 require "mark_1"
 require "mark_2"
 require "mark_4"
+require "decoder"
 
 def solve_challenge url, encoder
   question = QuestionSource.get_question url
@@ -22,7 +23,8 @@ end
 encoders = [
   Mark1.new(6),
   Mark2.new(9, 3),
-  Mark4.new(4, 7)
+  Mark4.new(4, 7),
+  Decoder.new(7, 2)
 ]
 initial_url = "http://minisculus.edendevelopment.co.uk/start"
 
