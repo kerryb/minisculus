@@ -1,10 +1,13 @@
 require File.expand_path("../spec_helper", __FILE__)
 require "mark_1"
 
-describe Mark1 do
-  it "rotates the input by the specified number of characters" do
-    Mark1.new(3).encode(
-      %{0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,?!'" }
-    ).should == %{3456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,?!'" 012}
+describe Mark1, "set to a" do
+  it "encodes using a simple wheel set to a" do
+    wheel = SimpleWheel.new 4
+    encoder = Mark1.new 4
+    text = "aB3!"
+    encoder.encode(text).should == text.chars.map do |char|
+      wheel.encode char, char
+    end.join
   end
 end

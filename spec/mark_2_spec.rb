@@ -1,20 +1,15 @@
 require File.expand_path("../spec_helper", __FILE__)
 require "mark_2"
 
-describe Mark2 do
-  context "when wheel 2 is set to 0" do
-    it "rotates the input forwards by the number of characters specified by wheel 1" do
-      Mark2.new(3, 0).encode(
-        %{0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,?!'" }
-      ).should == %{3456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,?!'" 012}
-    end
-  end
-
-  context "when wheel 1 is set to 0" do
-    it "rotates the input backwards by twice the number of characters specified by wheel 2" do
-      Mark2.new(0, 3).encode(
-        %{0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,?!'" }
-      ).should == %{,?!'" 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.}
-    end
+describe Mark2, "set to a and b" do
+  it "encodes using simple wheels set to a and -2b" do
+    wheel_1 = SimpleWheel.new 4
+    wheel_2 = SimpleWheel.new -14
+    encoder = Mark2.new 4, 7
+    text = "aB3!"
+    encoder.encode(text).should == text.chars.map do |char|
+      new_char = wheel_1.encode char, char
+      wheel_2.encode char, new_char
+    end.join
   end
 end
