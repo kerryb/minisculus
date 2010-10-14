@@ -1,0 +1,3 @@
+To run the tests and solve the challenge:
+
+  bundle && rake
