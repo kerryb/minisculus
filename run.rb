@@ -12,7 +12,7 @@ require "decoder"
 
 def solve_question url, encoder
   question = QuestionSource.get_question url
-  answer = encoder.encode question.text
+  answer = encoder.encode question.question
   path_to_next_question = question.answer answer
   URI.parse(url).merge(path_to_next_question).to_s
 rescue Question::WrongAnswer
@@ -41,6 +41,7 @@ end
 def solve_final_question url
   question = QuestionSource.get_question url
   code = question.code
+  @email = question.email
   @successful_settings = []
 
   (0..9).each do |wheel_1_position|
@@ -57,6 +58,7 @@ end
 
 def report_results
   puts <<"EOF"
+
 Original text:
 
 #{@original_text}
@@ -64,6 +66,8 @@ Original text:
 Successful wheel settings:
 
 #{@successful_settings.inspect}
+
+Well done! Now send your results to #{@email}
 
 EOF
 end

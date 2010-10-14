@@ -4,13 +4,11 @@ require "net/http"
 class Question
   class WrongAnswer < StandardError; end
 
-  attr_reader :url, :reference_url, :text, :code
+  attr_reader :url
 
-  def initialize url, reference_url, text, code
+  def initialize url, params
     @url = url
-    @reference_url = URI.parse(url).merge(reference_url).to_s
-    @text = text
-    @code = code
+    @params = params
   end
 
   def answer answer
@@ -24,5 +22,9 @@ class Question
     else
       raise WrongAnswer.new response.body
     end
+  end
+
+  def method_missing name
+    @params[name.to_s.gsub("_", "-")] or super
   end
 end

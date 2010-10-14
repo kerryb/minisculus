@@ -29,15 +29,12 @@ describe QuestionSource do
         question.url.should == question_url
       end
 
-      it "saves the reference url" do
+      it "constructs and saves the reference url" do
         question.reference_url.should == reference_url
       end
 
-      it "saves the question text" do
-        question.text.should == question_text
-      end
-
-      it "saves the question code" do
+      it "saves any other parameters" do
+        question.question.should == question_text
         question.code.should == question_code
       end
     end

@@ -2,31 +2,26 @@ require File.expand_path("../spec_helper", __FILE__)
 require "question"
 
 describe Question do
-  describe "initialising with a url, relative reference_url, text and code" do
+  describe "initialising with a url and a hash of parameters" do
     let(:url) { "http://example.com/foo" }
-    let(:relative_reference_url) { "/help.html" }
-    let(:absolute_reference_url) { "http://example.com/help.html" }
-    let(:text) { "What is your favourite colour?" }
-    let(:code) { "What is your favourite colour?" }
-    let(:question) { Question.new url, relative_reference_url, text, code }
+    let(:question) { Question.new url, "foo" => "bar", "baz-zar" => "quuz" }
 
     it "saves the url" do
       question.url.should == url
     end
 
-    it "saves the absolute reference_url" do
-      question.reference_url.should == absolute_reference_url
-    end
-
-    it "extracts the question text" do
-      question.text.should == text
+    it "provides underscore-ised accessors for the parameters" do
+      question.foo.should == "bar"
+      question.baz_zar.should == "quuz"
     end
   end
 
   describe "answering" do
     let(:this_question_url) { "http://example.com/foo" }
     let(:next_question_url) { "http://example.com/bar" }
-    let(:question) { Question.new this_question_url, "/ref", "some text", nil }
+    let(:question) do
+      Question.new this_question_url, "reference-url" => "/ref", "question" => "some text"
+    end
     let(:answer) { "some more text" }
     let(:answer_as_json) { {:answer => answer}.to_json }
 
