@@ -9,6 +9,7 @@ describe QuestionSource do
     let(:reference_path) { "/reference" }
     let(:reference_url) { "http://example.com#{reference_path}" }
     let(:question_text) { "Hello world!" }
+    let(:question_code) { "ftzqrbl" }
 
     before do
       stub_request(:get, original_url).to_return(
@@ -17,7 +18,8 @@ describe QuestionSource do
       )
       response_body = {
         "reference-url" => reference_path,
-        "question" => question_text
+        "question" => question_text,
+        "code" => question_code
       }.to_json
       stub_request(:get, question_url).to_return :body => response_body
     end
@@ -31,8 +33,12 @@ describe QuestionSource do
         question.reference_url.should == reference_url
       end
 
-      it "extracts the question text" do
+      it "saves the question text" do
         question.text.should == question_text
+      end
+
+      it "saves the question code" do
+        question.code.should == question_code
       end
     end
 

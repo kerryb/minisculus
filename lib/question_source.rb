@@ -17,7 +17,7 @@ module QuestionSource
 
   def self.create_question uri, response_body
     data = JSON.parse response_body
-    Question.new uri.to_s, data["reference-url"], data["question"]
+    Question.new uri.to_s, data["reference-url"], data["question"], data["code"]
   end
   private_class_method :create_question
 end

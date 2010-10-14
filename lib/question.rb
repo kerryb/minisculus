@@ -4,12 +4,13 @@ require "net/http"
 class Question
   class WrongAnswer < StandardError; end
 
-  attr_reader :url, :reference_url, :text
+  attr_reader :url, :reference_url, :text, :code
 
-  def initialize url, reference_url, text
+  def initialize url, reference_url, text, code
     @url = url
     @reference_url = URI.parse(url).merge(reference_url).to_s
     @text = text
+    @code = code
   end
 
   def answer answer

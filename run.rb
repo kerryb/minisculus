@@ -28,6 +28,43 @@ encoders = [
 ]
 initial_url = "http://minisculus.edendevelopment.co.uk/start"
 
-encoders.inject initial_url do |url, encoder|
+final_question_url = encoders.inject initial_url do |url, encoder|
   solve_challenge url, encoder
 end
+
+ClueWords = %w{FURLIN BUNKER}
+
+def try_decoding code, wheel_1_position, wheel_2_position
+  decoder = Decoder.new wheel_1_position, wheel_2_position
+  decoded_text = decoder.encode code
+  if ClueWords.all? {|word| decoded_text =~ /#{word}/ }
+    @original_text = decoded_text
+    @successful_settings << [wheel_1_position, wheel_2_position]
+  end
+end
+
+question = QuestionSource.get_question final_question_url
+code = question.code
+@successful_settings = []
+
+(0..9).each do |wheel_1_position|
+  (0..9).each do |wheel_2_position|
+    try_decoding code, wheel_1_position, wheel_2_position
+  end
+end
+
+unless @original_text
+  Launchy.open question.reference_url
+  raise "No clue words found in decoded text"
+end
+
+puts <<"EOF"
+Original text:
+
+#{@original_text}
+
+Successful wheel settings:
+
+#{@successful_settings.inspect}
+
+EOF

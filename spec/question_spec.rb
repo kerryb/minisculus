@@ -2,12 +2,13 @@ require File.expand_path("../spec_helper", __FILE__)
 require "question"
 
 describe Question do
-  describe "initialising with a url, relative reference_url and text" do
+  describe "initialising with a url, relative reference_url, text and code" do
     let(:url) { "http://example.com/foo" }
     let(:relative_reference_url) { "/help.html" }
     let(:absolute_reference_url) { "http://example.com/help.html" }
     let(:text) { "What is your favourite colour?" }
-    let(:question) { Question.new url, relative_reference_url, text }
+    let(:code) { "What is your favourite colour?" }
+    let(:question) { Question.new url, relative_reference_url, text, code }
 
     it "saves the url" do
       question.url.should == url
@@ -25,7 +26,7 @@ describe Question do
   describe "answering" do
     let(:this_question_url) { "http://example.com/foo" }
     let(:next_question_url) { "http://example.com/bar" }
-    let(:question) { Question.new this_question_url, "/ref", "some text" }
+    let(:question) { Question.new this_question_url, "/ref", "some text", nil }
     let(:answer) { "some more text" }
     let(:answer_as_json) { {:answer => answer}.to_json }
 
